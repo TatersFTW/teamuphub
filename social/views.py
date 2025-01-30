@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from .models import Post, Comment, GameAvailability
-from .forms import RegistrationForm, PostForm, CommentForm, GameAvailabilityForm
+from .models import Post, Comment, GameAvailability, Profile
+from .forms import RegistrationForm, PostForm, CommentForm, GameAvailabilityForm, ProfileForm
 
 
 def register(request):
@@ -68,7 +68,6 @@ def update_post(request, post_id):
 
     return render(request, 'social/update_post.html', {'form': form, 'post': post})
 
-
 @login_required
 def delete_post(request, post_id):
     post = get_object_or_404(Post, id=post_id, user=request.user)  # Ensure the post belongs to the logged-in user
@@ -92,3 +91,16 @@ def update_game_status(request):
     else:
         form = GameAvailabilityForm(instance=status)
     return render(request, 'social/update_game_status.html', {'form': form})
+
+def profile(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)  # Get or create profile for the user
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')  # Reload profile page after updating
+    else:
+        form = ProfileForm(instance=profile)
+
+    return render(request, 'social/profile.html', {'form': form, 'profile': profile})

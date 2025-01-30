@@ -11,5 +11,5 @@ urlpatterns = [
     path('update-post/<int:post_id>/', views.update_post, name='update_post'),
     path('delete-post/<int:post_id>/', views.delete_post, name='delete_post'),
     path('update-game-status/', views.update_game_status, name='update_game_status'),
-    
+    path('profile/', views.profile, name='profile'),
 ]
