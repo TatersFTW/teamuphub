@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from .models import Post, Comment, GameAvailability, Profile
 from .forms import RegistrationForm, PostForm, CommentForm, GameAvailabilityForm, ProfileForm
 
@@ -92,15 +93,25 @@ def update_game_status(request):
         form = GameAvailabilityForm(instance=status)
     return render(request, 'social/update_game_status.html', {'form': form})
 
-def profile(request):
-    profile, created = Profile.objects.get_or_create(user=request.user)  # Get or create profile for the user
+@login_required
+def profile(request, username=None):
+    if username:
+        # If a username is provided, show that user's profile
+        user = get_object_or_404(User, username=username)
+        profile, created = Profile.objects.get_or_create(user=user)
+        is_own_profile = (user == request.user)  # Check if it's the logged-in user's profile
+    else:
+        # If no username is provided, show the logged-in user's profile
+        user = request.user
+        profile, created = Profile.objects.get_or_create(user=user)
+        is_own_profile = True
 
-    if request.method == 'POST':
+    if is_own_profile and request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('profile')  # Reload profile page after updating
+            return redirect('profile', username=user.username)  # Reload the updated profile page
     else:
-        form = ProfileForm(instance=profile)
+        form = ProfileForm(instance=profile) if is_own_profile else None  # Only allow editing if it's their own profile
 
-    return render(request, 'social/profile.html', {'form': form, 'profile': profile})
+    return render(request, 'social/profile.html', {'profile': profile, 'user_profile': user, 'form': form, 'is_own_profile': is_own_profile})

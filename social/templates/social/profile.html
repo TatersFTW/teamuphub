@@ -4,26 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>{{ user_profile.username }}'s Profile</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container mt-5">
-        <h2>{{ user.username }}'s Profile</h2>
-        
+        <h2>{{ user_profile.username }}'s Profile</h2>
+
         <!-- Profile Picture -->
         <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="rounded-circle" width="150" height="150">
-        
+
         <!-- Profile Bio -->
         <p class="mt-3"><strong>Bio:</strong> {{ profile.bio }}</p>
 
-        <!-- Profile Update Form -->
-        <h4 class="mt-4">Edit Profile</h4>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Update Profile</button>
-        </form>
+        {% if is_own_profile %}
+            <!-- Show edit form if it's the logged-in user's profile -->
+            <h4 class="mt-4">Edit Profile</h4>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+            </form>
+        {% endif %}
 
         <a href="{% url 'home' %}" class="btn btn-secondary mt-3">Back to Home</a>
     </div>
