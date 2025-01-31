@@ -1,20 +1,24 @@
-<!-- social/templates/social/register.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Register - TeamUpHub</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
 </head>
 <body>
-    <div class="container">
-        <h2 class="mt-5">Register</h2>
+    <div class="auth-container text-left">
+
+        <h2 class="mb-4">Create an Account</h2>
+
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
         </form>
+
         <p class="mt-3">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
     </div>
 </body>

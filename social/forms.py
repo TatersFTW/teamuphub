@@ -14,6 +14,9 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'style': 'resize: none;'}),
+        }
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -31,4 +34,5 @@ class ProfileForm(forms.ModelForm):
         fields = ['bio', 'profile_picture']
         widgets = {
             'profile_picture': forms.FileInput(),
+            'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'style': 'resize: none;'}),
         }

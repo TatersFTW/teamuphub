@@ -1,4 +1,3 @@
-<!-- social/templates/social/update_game_status.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,14 +7,16 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <h2 class="mt-5">Update Game Status</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Update Status</button>
-        </form>
-        <a href="{% url 'home' %}" class="btn btn-secondary mt-3">Back to Home</a>
+    <div class="container d-flex justify-content-center align-items-start vh-100 pt-5">
+        <div>
+            <h2 class="mt-5">Update Game Status</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Update Status</button>
+            </form>
+            <a href="{% url 'home' %}" class="btn btn-secondary mt-3">Back to Home</a>
+        </div>
     </div>
 </body>
 </html>
