@@ -14,3 +14,5 @@ Backend: Django (Python)
 Frontend: Bootstrap (HTML, CSS, JavaScript)
 Database: SQLite / PostgreSQL
 Authentication: Django's built-in authentication system
+
+DISCLAIMER: THIS WEBSITE IS NOWHERE NEAR FINISHED BUT ALL FUNCTIONS AND FEATURES SHOULD BE WORKING, FRONTEND LOOKS LIKE GARBAGE I KNOW STILL WORKING ON MY SKILLS ON THAT.
